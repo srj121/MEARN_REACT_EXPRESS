@@ -2,34 +2,34 @@ import React, { useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function DeletByName({ userData, setUserData }) {
+function DeletById({ userData, setUserData}) {
     const [data, setData] = useState([]);
-    const [userName, setUserName] = useState({name: ''})
+    const [userId, setUserId] = useState({_id:''})
 
     const getData = async (e) => {
         e.preventDefault()
 
         try {
-           const response = await fetch('http://localhost:3001/deleteuserbyname', {
+           const response = await fetch('http://localhost:3001/deleteuserbyid', {
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json'
                 },
-                body: JSON.stringify(userName)
+                body: JSON.stringify(userId)
             });
              if (response.status === 404) {
-                throw new Error(`User name ${userName.name} not found `)
+                throw new Error(`User Id ${userId._id} not found `)
              }if (!response.ok) {
                 throw new Error('Internal server Error')
             }   
                 const deletedUser = await response.json();
-                setUserName(...userData, deletedUser)
+                setUserId(...userData, deletedUser)
                     setData(deletedUser);
                     toast.success("user has been Deleted!", {
                         position: toast.POSITION.BOTTOM_RIGHT
                     });         
 
-                const remainingUsers = userData.filter(u => u.name !== userName.name)
+                const remainingUsers = userData.filter(u => u._id !== userId._id)
                 setUserData(remainingUsers)
                 setData(data)
                
@@ -38,22 +38,22 @@ function DeletByName({ userData, setUserData }) {
                 toast.error(err.message,{
                     position: toast.POSITION.BOTTOM_RIGHT
                 });
-                setUserName({name: ''})
+                setUserId({_id: ''})
             }
     }
         function handleChange(e) {
-            setUserName({...userName, name: e.target.value})
+            setUserId({...userId, _id: e.target.value})
         }
 
 
     return(
         <>
-            <h3>Delete by Name</h3><br/>
+            <h3>Delete by Id</h3><br/>
             <form onSubmit={getData}>
-                <label>Name:</label>
+                <label>Id:</label>
 
-                <input type="text" placeholder="Name" value={userName.name}
-                  onChange={handleChange} name="name" required></input>
+                <input type="text" placeholder="Id" value={userId._id}
+                  onChange={handleChange} name="id" required></input>
 
                  <button type="submit">Delete</button>
            
@@ -61,4 +61,4 @@ function DeletByName({ userData, setUserData }) {
         </>
     );
 }
-export default DeletByName
+export default DeletById

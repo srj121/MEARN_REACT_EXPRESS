@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
+import DeletByName from "./DeleteByName";
+import GetByName from "./GetByName";
+import GetByAge from "./GetByAge";
+import AddUser from "./AddUser";
+import DeletById from "./DeleteById";
 
 function Home() {
     const [data, setData] = useState([]);
 
     useEffect(() => {
     getData()
-}, []);
+}, [data.length]);
 
 const getData = async () => {
     fetch('http://localhost:3001')
@@ -16,6 +21,7 @@ const getData = async () => {
 }
     return(
         <>
+        <div className="home_component">
             <h1> Home </h1>
             <table >  
                     <thead>
@@ -35,7 +41,15 @@ const getData = async () => {
                         ))}
                         </tbody>
                 </table>
-        </>
+        </div>
+                <div className="rest_of_component">
+                <GetByName/>
+                 <GetByAge/>
+                 <AddUser userData={ data } setUserData={ setData }/>   
+                <DeletById userData={ data } setUserData={ setData }/>
+                <DeletByName userData={ data } setUserData={ setData }/>
+                </div>
+                </>
     );
 }
 

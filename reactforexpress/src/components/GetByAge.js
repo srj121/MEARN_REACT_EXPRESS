@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function GetByAge() {
     const [data, setData] = useState([]);
@@ -8,25 +11,34 @@ function GetByAge() {
         e.preventDefault()
      
         try {
-            fetch('http://localhost:3001/byage', {
+            const response = await fetch('http://localhost:3001/byage', {
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json'
                 },
                 body: JSON.stringify(userAge)
-            })
-            .then(response => {
+            });
+
                 if (response.status == 404) {
-                    throw new Error('not found')
+                    throw new Error(`User with age ${userAge.age} not found!`)
                 }
-                return response.json()
-            })
-            .then(data => setData(data))
-            .catch(error => console.log(error.message));
+                if (!response.ok) {
+                    throw new Error('Internal server Error')
+                }
+
+                const getAge = await response.json();
+                setData(getAge);
+                toast.success("users are Availble by age!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                });
+
             setUserAge({age: ''})
 
         }catch (err) {
             console.log(err.message)
+            toast.error(err.message,{
+                position: toast.POSITION.BOTTOM_RIGHT
+             });
         }
     }
         function handleChange(e) {
@@ -38,7 +50,7 @@ function GetByAge() {
         <>
             <h3>Get By Age</h3><br/>
             <form onSubmit={getData}>
-                <label>ID:</label>
+                <label>Age:</label>
                 <input type="number" placeholder="Age" value={userAge.age}  onChange={handleChange} name="age" required></input>
                  <button type="submit">Find</button>
             {data.length !==0 &&
