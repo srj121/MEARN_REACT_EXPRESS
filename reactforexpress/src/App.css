@@ -30,3 +30,13 @@ button {
 width: auto;
 margin-left: 10px;
 }
+.rest_of_component {
+  position: fixed;
+  left: 50%;
+  top: 5%;
+}
+.home_component {
+  position: fixed;
+  right: 60%;
+  top: 20px;
+}
