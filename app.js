@@ -44,7 +44,6 @@ app.get('/', async (req, res) => {
   } catch (err) {
     logger.error(err)
     logger.info('Error retrieving documents')
-    res.status(500).send('Error retrieving documents');
   }
 });
 
@@ -55,13 +54,14 @@ app.get('/byname', async (req, res) => {
   try {
     const userName = req.query.name;
 
-    console.log(userName);
+    logger.info('userName = ' + userName);
+
     await connectToDatabase();
     const findByname = await firstCollection.find({ name: userName }).toArray();
 
     if (findByname.length === 0) {
       logger.info(`Document with name { ${userName} } not found`)
-      res.status(404).send(`Document with name { ${userName} } not found`);
+      res.status(404).send(`Document with name { ${userName} } not found`)
     } else {
       res.json(findByname)
     }
@@ -80,7 +80,7 @@ app.post('/byage', async (req, res) => {
   try {
     const userAge = Number(req.body.age);
 
-    logger.info(userAge);
+    logger.info('userAge = ' + userAge);
 
     await connectToDatabase();
 
@@ -108,17 +108,19 @@ app.post('/addUser', async (req, res) => {
     name,
     age
   });
+  console.log(name)
+  console.log(age)
 
   try {
     await connectToDatabase();
+
     const savedUser = await firstCollection.insertOne(newUser);
-    res.render('AddedUser', {users: newUser });
-    logger.info('')
-    console.log(newUser);
+    logger.info(savedUser)
+    res.json(savedUser)
   } catch (err) {
     logger.error(err)
     res.status(500).json({ message: 'Error inserting document' });
-    logger.info({ message: 'Error inserting document' })
+    logger.info('Error inserting document' )
   }
 });
 
@@ -138,7 +140,7 @@ app.post('/deleteuserbyid', async (req, res) => {
     const result  = await firstCollection.deleteOne({ _id: objectId});
   
       if (result.deletedCount === 1) {
-        res.status(200).send('Document deleted successfully');
+        res.json(result)
         logger.info('Document deleted successfully');
 
       } else {
@@ -165,7 +167,7 @@ app.post('/deleteuserbyname', async (req, res) => {
 
       if (result.deletedCount > 0) {
         logger.info('Document deleted successfully')
-        res.status(200).send('Document deleted successfully');
+        res.status(200).send({"count":result.deletedCount});
 
         
       } else {
