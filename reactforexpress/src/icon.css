@@ -1,0 +1,47 @@
+.imgcontainer {
+    position: fixed;
+    top: 10px;
+    right: -445px;
+
+  }
+
+img.avatar {
+    width: 7%;
+    border-radius: 50%;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  img.avatar:hover {
+        transform: scale(1.1);
+  }
+
+  .user-menu {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    transform: translateX(-100%);
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 8px;
+
+}
+
+.user-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.user-menu li:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.reconnect {
+  position: fixed;
+  right: 53%;
+  bottom: 5%;
+
+  
+}
