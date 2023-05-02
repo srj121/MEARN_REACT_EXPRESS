@@ -30,7 +30,18 @@ const user = require('./model/User');
 app.listen(port, () => {
   logger.info(`Server started on port ${port}`);
 });
+//_________________________________CONNECTION TO PORT_________________________________
 
+app.get('/reconnect',async (req, res) => {
+  try {
+    await client.close(); // Close the existing connection
+    await connectToDatabase(); // Connect to the database again
+    res.status(200).send('Successfully reconnected to the database');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error reconnecting to the database');
+  }
+});
 //____________________________________GET ALL_______________________________________
 
 app.get('/', async (req, res) => {
@@ -131,7 +142,8 @@ app.post('/addUser', async (req, res) => {
 //____________________________________DELETE BY ID_______________________________________
 
 app.post('/deleteuserbyid', async (req, res) => {
-
+  const number1 = req.body._id;
+  console.log(number1)
 
   try {
     const { ObjectId } = require('mongodb');
@@ -148,15 +160,15 @@ app.post('/deleteuserbyid', async (req, res) => {
       if (result.deletedCount === 1) {
         res.json(result)
         logger.info('Document deleted successfully');
-      }
+      }else {
       res.status(404).send('Document not found');
+      }
       // } else {
       //   logger.info('Document not found');
       //   res.status(404).send('Document not found');
       // }
 }
 catch (err) {
-  logger.error(err)
   res.status(400).send('Error retrieving document');
   logger.info('Error retrieving document');
 }
