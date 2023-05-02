@@ -17,10 +17,9 @@ function DeletById({ userData, setUserData}) {
                 },
                 body: JSON.stringify(userId)
             });
-             if (response.status === 404) {
-                throw new Error(`User Id ${userId._id} not found `)
-             }if (!response.ok) {
-                throw new Error('Internal server Error')
+           
+             if (!response.ok) {
+                throw new Error(`User Id { ${userId._id} } not found `)
             }   
                 const deletedUser = await response.json();
                 setUserId(...userData, deletedUser)
