@@ -15,33 +15,36 @@ img.avatar {
         transform: scale(1.1);
   }
 
-  .user-menu {
-    position: absolute;
-    top: 30px;
-    right: 0;
-    transform: translateX(-100%);
-    background-color: transparent;
-    border: 1px solid black;
-    border-radius: 3px;
-    padding: 8px;
 
-}
-
-.user-menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.user-menu li:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-}
 
 .reconnect {
   position: fixed;
   right: 53%;
   bottom: 5%;
+} 
 
-  
+.user-menu {
+  border: 1px solid black;
+  position: absolute;
+  top: 10%;
+  right: 0;
+  height: 100%;
+  /* background-color: #009879; */
+  background-color: linear-gradient(90deg, hsla(213, 75%, 62%, 1) 0%, hsla(313, 75%, 62%, 1) 100%);
+  padding: 20px;
+  width: 150px;
+}
+
+.user-menu ul {
+  list-style-type: none;
+  margin: 10px;
+  padding: 2px;
+}
+.user-menu li {
+  padding-top: 13%;
+}
+
+.user-menu li:hover {
+  cursor: pointer;
+  transform: scale(1.05);
 }
