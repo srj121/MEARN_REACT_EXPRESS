@@ -14,8 +14,12 @@ function Home() {
 
     useEffect(() => {
     getData()
-}, []);
+    console.log("instate")
+}, [data.length]);
 
+function handleClick() {
+    setData( data=> data + 1);
+}
 const getData = async () => {
     fetch('http://localhost:3001')
     .then(response => response.json())
@@ -47,7 +51,7 @@ const getData = async () => {
                         </tbody>
                 </table>
         </div>
-        <Reconnect />
+        <Reconnect handleClick={ handleClick } />
                 <div className="rest_of_component">
                 <GetByName/>
                  <GetByAge/>
