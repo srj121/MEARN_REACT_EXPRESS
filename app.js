@@ -113,10 +113,14 @@ app.post('/addUser', async (req, res) => {
 
   try {
     await connectToDatabase();
+    if(age <= 0) {
+      res.status(400).send("Age should not be less than 0");
+    }else {
 
     const savedUser = await firstCollection.insertOne(newUser);
     logger.info(savedUser)
     res.json(savedUser)
+    }
   } catch (err) {
     logger.error(err)
     res.status(500).json({ message: 'Error inserting document' });
@@ -127,6 +131,8 @@ app.post('/addUser', async (req, res) => {
 //____________________________________DELETE BY ID_______________________________________
 
 app.post('/deleteuserbyid', async (req, res) => {
+
+
   try {
     const { ObjectId } = require('mongodb');
 
@@ -142,15 +148,16 @@ app.post('/deleteuserbyid', async (req, res) => {
       if (result.deletedCount === 1) {
         res.json(result)
         logger.info('Document deleted successfully');
-
-      } else {
-        logger.info('Document not found');
-        res.status(404).send('Document not found');
       }
+      res.status(404).send('Document not found');
+      // } else {
+      //   logger.info('Document not found');
+      //   res.status(404).send('Document not found');
+      // }
 }
 catch (err) {
   logger.error(err)
-  res.status(500).send('Error retrieving document');
+  res.status(400).send('Error retrieving document');
   logger.info('Error retrieving document');
 }
 });
