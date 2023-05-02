@@ -17,13 +17,14 @@ function DeletById({ userData, setUserData}) {
                 },
                 body: JSON.stringify(userId)
             });
-           
-             if (!response.ok) {
+            setUserId({_id: ''})
+            
+            if (!response.ok) {
                 throw new Error(`User Id { ${userId._id} } not found `)
             }   
-                const deletedUser = await response.json();
-                setUserId(...userData, deletedUser)
-                    setData(deletedUser);
+            const deletedUser = await response.json();
+            setUserId(...userData, deletedUser)
+            setData(deletedUser);
                     toast.success("user has been Deleted!", {
                         position: toast.POSITION.BOTTOM_RIGHT
                     });         
@@ -37,7 +38,6 @@ function DeletById({ userData, setUserData}) {
                 toast.error(err.message,{
                     position: toast.POSITION.BOTTOM_RIGHT
                 });
-                setUserId({_id: ''})
             }
     }
         function handleChange(e) {

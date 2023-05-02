@@ -4,13 +4,17 @@ import GetByName from "./GetByName";
 import GetByAge from "./GetByAge";
 import AddUser from "./AddUser";
 import DeletById from "./DeleteById";
+import Usericon from "./userIcon";
+import Reconnect from "./reconnect";
+
 
 function Home() {
     const [data, setData] = useState([]);
+    
 
     useEffect(() => {
     getData()
-}, [data.length]);
+}, []);
 
 const getData = async () => {
     fetch('http://localhost:3001')
@@ -21,8 +25,9 @@ const getData = async () => {
 }
     return(
         <>
+         <Usericon />
         <div className="home_component">
-            <h1> Home </h1>
+            <h1> All Users </h1>
             <table >  
                     <thead>
                         <tr >
@@ -42,6 +47,7 @@ const getData = async () => {
                         </tbody>
                 </table>
         </div>
+        <Reconnect />
                 <div className="rest_of_component">
                 <GetByName/>
                  <GetByAge/>

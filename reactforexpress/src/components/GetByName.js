@@ -9,8 +9,12 @@ function GetByName() {
    
     const getData = async () => {
         try {
+            if(userName === '') {
+                throw new Error('User name should not be empty')
+            }else{
             const response = await fetch(`http://localhost:3001/byname?name=${userName}`)
-
+          
+            
             if (response.status === 404) {
                     throw new Error(`User name ${userName} not found `)
                 }if (!response.ok) {
@@ -23,7 +27,7 @@ function GetByName() {
                     position: toast.POSITION.BOTTOM_RIGHT
                 });
                 setUserName("")
-           
+            }
 
         } catch (err){
           console.log(err.message)
@@ -46,7 +50,7 @@ function GetByName() {
          onChange={handleChange} name="name" required></input>
          
         <button onClick={getData}>Find</button>
-        {data.length != 0 &&
+        {data.length !== 0 &&
          <table >  
                     <thead>
                         <tr >

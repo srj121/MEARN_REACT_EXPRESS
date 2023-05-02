@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function AddUser({userData, setUserData}) {
 
-    const [data, setData] = useState([]);
     const [userName, setUserName] = useState({name:''})
     const [userAge, setUserAge] = useState({age:''})
 
@@ -19,14 +18,17 @@ function AddUser({userData, setUserData}) {
             },
         body: JSON.stringify({ name: userName.name, age: userAge.age })
     });
-        
+        if(response.status === 400) {
+            throw new Error('Age should not be less than 0');    
+        }
     if(!response.ok) {
-        throw new Error('Failed ro add user.');
+        throw new Error('Failed to add user.');
     }
         const addedUser = await response.json();
 
         setUserData([...userData, addedUser]);
-        setData(addedUser);
+        setUserName({name:''})
+        setUserAge({age:''})
 
         toast.success("user has been added!", {
             position: toast.POSITION.BOTTOM_RIGHT
@@ -36,8 +38,6 @@ function AddUser({userData, setUserData}) {
      toast.error(err.message,{
         position: toast.POSITION.BOTTOM_RIGHT
      });
-     setUserName({name:''})
-     setUserAge({age:''})
 }
     }
 

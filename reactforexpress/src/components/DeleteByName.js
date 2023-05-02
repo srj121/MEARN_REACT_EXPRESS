@@ -17,30 +17,30 @@ function DeletByName({ userData, setUserData }) {
                 },
                 body: JSON.stringify(userName)
             });
-             if (response.status === 404) {
+            if (response.status === 404) {
                 throw new Error(`User name ${userName.name} not found `)
              }if (!response.ok) {
-                throw new Error('Internal server Error')
-            }   
+                 throw new Error('Internal server Error')
+                }   
                 const deletedUser = await response.json();
                 setUserName(...userData, deletedUser)
-                    setData(deletedUser);
+                setUserName({name: ''})
+                setData(deletedUser);
                     toast.success("user has been Deleted!", {
                         position: toast.POSITION.BOTTOM_RIGHT
                     });         
-
-                const remainingUsers = userData.filter(u => u.name !== userName.name)
+                    
+                    const remainingUsers = userData.filter(u => u.name !== userName.name)
                 setUserData(remainingUsers)
                 setData(data)
-               
+                
             }catch (err) {
                 console.log(err.message)
                 toast.error(err.message,{
                     position: toast.POSITION.BOTTOM_RIGHT
                 });
-                setUserName({name: ''})
             }
-    }
+        }
         function handleChange(e) {
             setUserName({...userName, name: e.target.value})
         }
