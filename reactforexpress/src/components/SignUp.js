@@ -40,7 +40,7 @@ function SignUp() {
       }
       const addedUser = await response.json();
 
-      setUserEmail({email: ""});
+      setUserEmail({ email: "" });
       setUserName({ name: "" });
       setUserPassword({ password: "" });
 
@@ -58,12 +58,7 @@ function SignUp() {
     setUserName({ ...userName, name: e.target.value });
   };
   const handleChangeForPassword = (e) => {
-    setUserEmail({ ...userPassword, password: e.target.value });
-  };
-
-  const handleSubmit = (event) => {
-    console.log("hi ");
-    event.preventDefault();
+    setUserPassword({ ...userPassword, password: e.target.value });
   };
 
   return (
@@ -77,6 +72,7 @@ function SignUp() {
         placeholder="Email"
         value={userEmail.email}
         onChange={handleChangeForEmail}
+        required
       />
       <br></br>
       <label>Username:</label>
@@ -86,6 +82,7 @@ function SignUp() {
         placeholder="Username"
         value={userName.name}
         onChange={handleChangeforName}
+        required
       />
       <br></br>
       <label>Password:</label>
@@ -95,10 +92,11 @@ function SignUp() {
         placeholder="Password"
         value={userPassword.password}
         onChange={handleChangeForPassword}
+        required
       />
       <br></br>
         <button type="submit"
-        onClick={handleSubmit}>
+        >
           Sign up
         </button>
     </form>
