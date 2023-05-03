@@ -1,0 +1,20 @@
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T10:39:04.411Z"}
+{"level":"info","message":"Connected to MongoDB Atlas","timestamp":"2023-05-03T10:39:04.833Z"}
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T10:40:17.716Z"}
+{"level":"info","message":"Connected to MongoDB Atlas","timestamp":"2023-05-03T10:40:18.367Z"}
+{"level":"info","message":"get by Name","timestamp":"2023-05-03T10:40:56.240Z"}
+{"level":"info","message":"userName = suraj","timestamp":"2023-05-03T10:40:56.241Z"}
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T10:41:45.008Z"}
+{"level":"info","message":"Connected to MongoDB Atlas","timestamp":"2023-05-03T10:41:45.361Z"}
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T10:47:09.254Z"}
+{"level":"info","message":"Connected to MongoDB Atlas","timestamp":"2023-05-03T10:47:09.583Z"}
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T12:37:27.787Z"}
+{"level":"info","message":"Connected to MongoDB Atlas","timestamp":"2023-05-03T12:37:28.252Z"}
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T13:01:51.762Z"}
+{"level":"info","message":"Connected to MongoDB Atlas","timestamp":"2023-05-03T13:01:52.083Z"}
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T13:53:19.416Z"}
+{"code":"ECONNREFUSED","hostname":"_mongodb._tcp.cluster0.ixfsgzn.mongodb.net","level":"error","syscall":"querySrv","timestamp":"2023-05-03T13:53:19.436Z"}
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T13:54:46.966Z"}
+{"level":"info","message":"Connected to MongoDB Atlas","timestamp":"2023-05-03T13:54:47.297Z"}
+{"level":"info","message":"Server started on port 3001","timestamp":"2023-05-03T14:04:39.248Z"}
+{"level":"info","message":"Connected to MongoDB Atlas","timestamp":"2023-05-03T14:04:39.695Z"}

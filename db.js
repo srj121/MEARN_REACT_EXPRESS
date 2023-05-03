@@ -1,22 +1,39 @@
 const { MongoClient } = require('mongodb');
 const logger = require('./logger/logger')
 
-// MongoDB Atlas connection URI
-const uri =  process.env.MONGODB_URI;
+const useruri =  process.env.MONGODB_URI_USER;
 
-// Connect to MongoDB Atlas
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const userclient = new MongoClient(useruri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Declare a variable to hold the "first" collection
 let firstCollection;
 
-async function connectToDatabase() {
+async function connectToDatabaseUser() {
   try {
-    await client.connect();
+    await userclient.connect();
     logger.info('Connected to MongoDB Atlas');
 
-    // Get a reference to the "first" collection
-    firstCollection = client.db('expressJs').collection('first');
+    firstCollection = userclient.db('expressJs').collection('first');
+    
+  } catch (err) {
+  logger.error(err);
+    process.exit(1);
+  }
+}
+//________________________________________AUTH_________________________________________
+
+const authuri =  process.env.MONGODB_URI_SECURITY;
+
+const authclient = new MongoClient(authuri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+let authCollection;
+
+async function connectToDatabaseAuth() {
+  try {
+    await userclient.connect();
+    logger.info('Connected to MongoDB Atlas');
+
+    authCollection = authclient.db('security').collection('auth');
+    
   } catch (err) {
   logger.error(err);
     process.exit(1);
@@ -24,7 +41,12 @@ async function connectToDatabase() {
 }
 
 module.exports = {
-  connectToDatabase, 
-  firstCollection,
-  client
+
+connectToDatabaseUser,
+firstCollection,
+userclient,
+
+  connectToDatabaseAuth , 
+  authCollection,
+  authclient
 };

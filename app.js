@@ -1,21 +1,16 @@
-require('dotenv').config();
 const express = require('express');
-const {connectToDatabase, client } = require('./db');
-const cors = require('cors')
-const firstCollection = client.db('expressJs').collection('first');
-
 const app = express();
+const cors = require('cors')
 app.use(cors())
+require('dotenv').config();
+const {connectToDatabase, userclient, connectToDatabaseUser } = require('./db');
+const firstCollection = userclient.db('expressJs').collection('first');
+connectToDatabaseUser();
+
 //_____________________________________LOGGER_______________________________________
 
 const logger = require('./logger/logger');
 
-//_____________________________________EJS_______________________________________
-
-const ejs = require('ejs');
-app.set('view engine', 'ejs');
-
-const port = process.env.PORT;
 //_____________________________________PARSE BODY_______________________________________
 const bodyParser = require('body-parser');
 
@@ -27,6 +22,7 @@ const user = require('./model/User');
 
 //_________________________________CONNECTION TO PORT_________________________________
 
+const port = process.env.PORT;
 app.listen(port, () => {
   logger.info(`Server started on port ${port}`);
 });
@@ -34,7 +30,7 @@ app.listen(port, () => {
 
 app.get('/reconnect',async (req, res) => {
   try {
-    await client.close(); // Close the existing connection
+    await userclient.close(); // Close the existing connection
     await connectToDatabase(); // Connect to the database again
     res.status(200).send('Successfully reconnected to the database');
   } catch (err) {
@@ -46,7 +42,6 @@ app.get('/reconnect',async (req, res) => {
 
 app.get('/', async (req, res) => {
   try {
-    await connectToDatabase();
 
     const users = await firstCollection.find().toArray();
 
@@ -67,7 +62,6 @@ app.get('/byname', async (req, res) => {
 
     logger.info('userName = ' + userName);
 
-    await connectToDatabase();
     const findByname = await firstCollection.find({ name: userName }).toArray();
 
     if (findByname.length === 0) {
@@ -93,7 +87,6 @@ app.post('/byage', async (req, res) => {
 
     logger.info('userAge = ' + userAge);
 
-    await connectToDatabase();
 
     const findByage = await firstCollection.find({ age: userAge }).toArray();
     if (findByage.length === 0) {
@@ -123,7 +116,6 @@ app.post('/addUser', async (req, res) => {
   console.log(age)
 
   try {
-    await connectToDatabase();
     if(age <= 0) {
       res.status(400).send("Age should not be less than 0");
     }else {
@@ -153,7 +145,6 @@ app.post('/deleteuserbyid', async (req, res) => {
     const objectId = new ObjectId(String(number));
     logger.info(objectId);
 
-    await connectToDatabase();
 
     const result  = await firstCollection.deleteOne({ _id: objectId});
   
@@ -181,7 +172,6 @@ app.post('/deleteuserbyname', async (req, res) => {
 
     const name = req.body.name;
     logger.info(name);
-    await connectToDatabase();
     const result  = await firstCollection.deleteMany({ name: name});
 
       if (result.deletedCount > 0) {
