@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import '../icon.css'
-import { Logout, Profile, Setting } from "./Menu";
+import '../css/icon.css'
+import '../css/menu.css'
+import { Logout, Profile, Settings } from "./Menu";
 
 function Usericon() {
     const imageUrl = "https://www.w3schools.com/howto/img_avatar2.png";
 
     const [showMenu, setShowMenu] = useState(false);
     const [activeItem, setActiveItem] = useState(null);
+    const [isActive, setActive] = useState({
+      profile : false,
+      settings : false,
+      logout : false
+    })
 
 
     const toggleMenu = () => {
@@ -15,7 +21,10 @@ function Usericon() {
     }
 
     const handleItemClick = (item) => {
-        setActiveItem(item);
+        // setActiveItem(item);
+       if (item === 'profile') setActive({...isActive, [item]: !isActive.profile}) 
+       else if (item === 'settings') setActive({...isActive, [item]: !isActive.settings}) 
+       else if (item === 'logout') setActive({...isActive, [item]: !isActive.logout}) 
       };
 
      
@@ -31,12 +40,20 @@ function Usericon() {
       {showMenu && (
             <div className="user-menu">
                 <ul>
-                <li onClick={() => handleItemClick("profile")}>Profile</li>
-                  <li onClick={() => handleItemClick("settings")}>Settings</li>
-                <li onClick={() => handleItemClick("logout")}>Logout</li>
+                  <div>
+                <li onClick={() => handleItemClick("profile")}>Profile
+                  {isActive.profile && <Profile />}
+                </li>
+                </div>
+                  <li onClick={() => handleItemClick("settings")}>Settings
+                  {isActive.settings && <Settings />}
+                  </li>
+                <li onClick={() => handleItemClick("logout")}>Logout
+                {isActive.logout && <Logout />}
+                </li>
                 </ul>
                 {activeItem === "profile" && <Profile />}
-               {activeItem === "settings" && <Setting />}
+               {activeItem === "settings" && <Settings />}
               {activeItem === "logout" && <Logout />}
 
             </div>

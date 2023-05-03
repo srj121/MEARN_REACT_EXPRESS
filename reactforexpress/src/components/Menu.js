@@ -1,34 +1,57 @@
-import React  from "react"
+import React from "react";
+import '../css/menu.css'
 
 export function Profile() {
+  return (
+    <div className="profile-menu">
+      <ProfileMenu></ProfileMenu>
+    </div>
+  );
+}
+export function ProfileMenu(props) {
+  return (
+    <div className="sub-menu">
+      {props.children}
 
-    console.log("profile");
-    return(
-        <>
-        <div className="profile-menu">
-        </div>
-        </>
-    )
+      <li>Name</li>
+      <li>Age</li>
+    </div>
+  );
+}
+// _____________________________________________________SETTINGS_______________________________________________________________
+
+
+export function Settings() {
+  return (
+    <div className="setting-menu">
+      <SettingsMenu></SettingsMenu>
+    </div>
+  );
+}
+export function SettingsMenu(props) {
+  return (
+    <div className="sub-menu">
+      {props.children}
+      <li>Dark Theme</li>
+      <li>Change Password</li>
+    </div>
+  );
 }
 
-export function Setting() {
-
-    console.log("setting");
-    return(
-        <>
-        <div className="profile-menu">
-        </div>
-        </>
-    )
-}
-
+// _____________________________________________________LOGOUT_______________________________________________________________
 export function Logout() {
+  return (
+    <div className="logout-menu">
+      <LogoutMenu></LogoutMenu>
+    </div>
+  );
+}
+export function LogoutMenu(props) {
+  return (
+    <div className="sub-menu">
+      {props.children}
 
-    console.log("logout");
-    return(
-        <>
-        <div className="profile-menu">
-        </div>
-        </>
-    )
+      <li>logout</li>
+    </div>
+  );
 }

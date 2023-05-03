@@ -7,6 +7,14 @@ function AddUser({userData, setUserData}) {
     const [userName, setUserName] = useState({name:''})
     const [userAge, setUserAge] = useState({age:''})
 
+    function showNotification(message, status = 'success') {
+        const toastFunc = status === 'error' ? toast.error : toast.success;
+      
+        toastFunc(message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
+
     const addData = async (e) => {
             e.preventDefault()
 
@@ -19,10 +27,10 @@ function AddUser({userData, setUserData}) {
         body: JSON.stringify({ name: userName.name, age: userAge.age })
     });
         if(response.status === 400) {
-            throw new Error('Age should not be less than 0');    
+            showNotification('Age should not be less than 0',"error");    
         }
     if(!response.ok) {
-        throw new Error('Failed to add user.');
+        showNotification('Failed to add user.','error');
     }
         const addedUser = await response.json();
 
@@ -30,15 +38,11 @@ function AddUser({userData, setUserData}) {
         setUserName({name:''})
         setUserAge({age:''})
 
-        toast.success("user has been added!", {
-            position: toast.POSITION.BOTTOM_RIGHT
-        });
-} catch(err) {
+        showNotification("user has been added!",'error');
+    } catch(err) {
      console.log(err.message)
-     toast.error(err.message,{
-        position: toast.POSITION.BOTTOM_RIGHT
-     });
-}
+     showNotification(err.message,'error');
+    }
     }
 
     function handleChangeForName(e) {

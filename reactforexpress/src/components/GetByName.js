@@ -6,34 +6,41 @@ function GetByName() {
     const [data, setData] = useState([]);
     const [userName, setUserName] = useState("")
 
+    function showNotification(message, status = 'success') {
+        const toastFunc = status === 'error' ? toast.error : toast.success;
+      
+        toastFunc(message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
+      
    
     const getData = async () => {
         try {
             if(userName === '') {
-                throw new Error('User name should not be empty')
+                showNotification("User name should not be empty", "error");
+
             }else{
             const response = await fetch(`http://localhost:3001/byname?name=${userName}`)
           
             
             if (response.status === 404) {
-                    throw new Error(`User name ${userName} not found `)
-                }if (!response.ok) {
-                    throw new Error('Internal server Error')
-                }
+                    showNotification(`User name ${userName} not found `, "error");
+                    
+                }else if (!response.ok) {
+                    showNotification("Internal server Error!",'error')
+                }else {
                 const getName = await response.json();
+                
                 setData(getName);
-
-                toast.success("users are Availble by name!", {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                });
+                    showNotification("users are Availble by name!")
                 setUserName("")
             }
+        }
 
         } catch (err){
           console.log(err.message)
-          toast.error(err.message,{
-            position: toast.POSITION.BOTTOM_RIGHT
-         });
+        showNotification(err.message,'error')
         }
     }
 

@@ -1,0 +1,31 @@
+.user-menu {
+    border: 1px solid black;
+    position: fixed;
+    border-top-left-radius: 10px;
+    top: 0%;
+    right: 0;
+    height: 95.5%;
+    background: linear-gradient(30deg,rgb(247, 134, 171) 30%,  rgb(223, 135, 149), #92e4e0);
+    padding: 20px;
+    width: 150px;
+    z-index: 1;
+}
+
+.user-menu ul {
+    list-style-type: none;
+    margin: 10px;
+    padding: 2px;
+}
+.user-menu li {
+    padding-top: 20%;
+}
+
+.user-menu li:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+.sub-menu {
+    background: linear-gradient(rgb(233, 143, 143),rgb(235, 221, 225) 30%,  rgb(224, 192, 46),rgb(231, 213, 213));
+    margin-left: 10px;
+    border-radius: 9px;
+}

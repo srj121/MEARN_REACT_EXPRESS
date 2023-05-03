@@ -14,7 +14,6 @@ function Home() {
 
     useEffect(() => {
     getData()
-    console.log("instate")
 }, [data.length]);
 
 function handleClick() {
@@ -24,7 +23,7 @@ const getData = async () => {
     fetch('http://localhost:3001')
     .then(response => response.json())
     .then(data => setData(data))
-    .catch(error => console.error(error));
+    .catch(error => console.error(error));    
 
 }
     return(
