@@ -1,11 +1,16 @@
 const express = require('express');
 const app = express();
+const crypto = require('crypto');
 const cors = require('cors')
 app.use(cors())
 require('dotenv').config();
-const {connectToDatabase, userclient, connectToDatabaseUser } = require('./db');
+const { userclient, connectToDatabaseUser } = require('./db');
 const firstCollection = userclient.db('expressJs').collection('first');
 connectToDatabaseUser();
+
+const {connectToDatabaseAuth, authclient } = require('./db');
+const authCollection = authclient.db('security').collection('auth');
+connectToDatabaseAuth();
 
 //_____________________________________LOGGER_______________________________________
 
@@ -19,6 +24,7 @@ app.use(bodyParser.json());
 
 //_____________________________________MODEL_______________________________________
 const user = require('./model/User');
+const authUser = require('./model/AuthUser');
 
 //_________________________________CONNECTION TO PORT_________________________________
 
@@ -103,33 +109,6 @@ app.post('/byage', async (req, res) => {
 });
 
 
-//____________________________________POST ADDUSER_______________________________________
-
-app.post('/addUser', async (req, res) => {
-  const { name, age } = req.body;
-
-  const newUser = new user({
-    name,
-    age
-  });
-  console.log(name)
-  console.log(age)
-
-  try {
-    if(age <= 0) {
-      res.status(400).send("Age should not be less than 0");
-    }else {
-
-    const savedUser = await firstCollection.insertOne(newUser);
-    logger.info(savedUser)
-    res.json(savedUser)
-    }
-  } catch (err) {
-    logger.error(err)
-    res.status(500).json({ message: 'Error inserting document' });
-    logger.info('Error inserting document' )
-  }
-});
 
 //____________________________________DELETE BY ID_______________________________________
 
@@ -188,5 +167,81 @@ catch (err) {
   logger.error(err)
   res.status(500).send('Error retrieving document');
 }
+});
+//____________________________________POST ADDUSER_______________________________________
+
+app.post('/addUser', async (req, res) => {
+  const { name, age } = req.body;
+
+  const newUser = new user({
+    name,
+    age
+  });
+  console.log(name)
+  console.log(age)
+
+  try {
+    if(age <= 0) {
+      res.status(400).send("Age should not be less than 0");
+    }else {
+
+    const savedUser = await firstCollection.insertOne(newUser);
+    logger.info(savedUser)
+    res.json(savedUser)
+    }
+  } catch (err) {
+    logger.error(err)
+    res.status(500).json({ message: 'Error inserting document' });
+    logger.info('Error inserting document' )
+  }
+});
+//____________________________________POST AUTH ADDUSER_______________________________________
+
+app.post('/authsignup', async (req, res) => {
+  const {email, name, password } = req.body;
+
+  const algorithm = 'aes-256-cbc';
+  const key = crypto.scryptSync(password, 'salt', 32);
+  const iv = crypto.randomBytes(16);
+  
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+  let encrypted = cipher.update('Hello, world!', 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  
+  console.log('Encrypted message:', encrypted);
+
+
+  // const algorithm = 'aes-256-cbc';
+  // const password = 'mysecretpassword';
+  // const key = crypto.scryptSync(password, 'salt', 32);
+  // const iv = crypto.randomBytes(16);
+  
+  // const cipher = crypto.createCipheriv(algorithm, key, iv);
+  // let encrypted = cipher.update('Hello, world!', 'utf8', 'hex');
+  // encrypted += cipher.final('hex');
+  
+  // console.log('Encrypted message:', encrypted);
+  
+  const newAuthUser = new authUser({
+    email,
+    name,
+    password : encrypted
+  });
+
+  console.log(email)
+  console.log(name)
+  console.log(encrypted)
+
+  try {
+    
+    const savedUser = await authCollection.insertOne(newAuthUser);
+    logger.info(savedUser)
+    res.json(savedUser)
+    
+  } catch (err) {
+    logger.error(err)
+    res.status(500).json({ message: 'Error inserting document' });
+    logger.info('Error inserting document' )
+  }
 });
 
