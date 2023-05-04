@@ -3,25 +3,30 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/icon.css'
 
-function Reconnect({ userData }) {
+function Reconnect() {
 
-    const handleReconnectClick = async (req, res) => {
+    function showNotification(message, status = 'success') {
+        const toastFunc = status === 'error' ? toast.error : toast.success;
+      
+        toastFunc(message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
+
+    const handleReconnectClick = async () => {
         try {
-            const response = await fetch('http/localhost:3001/reconnect');
+            const response = await fetch('http://localhost:3001/reconnect')
+            
             
             if(response.status === 200) {
 
-            toast.success("Reconnected to DB ", {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
+            showNotification("Reconnected to DB ", 'success')
+            // window.location = "/home";
         }
 
-            console.log(response.status);
         } catch (err) {
             console.error(err);
-            toast.error("Enable connecting to DB ", {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
+            showNotification("Enable connecting to DB ", 'error')
         }
 
     };

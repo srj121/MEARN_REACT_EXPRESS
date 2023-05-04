@@ -1,5 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
+import { toast } from 'react-toastify';
 import '../css/menu.css'
+
+function showNotification(message, status = 'success') {
+  const toastFunc = status === 'error' ? toast.error : toast.success;
+
+  toastFunc(message, {
+    position: toast.POSITION.BOTTOM_RIGHT,
+  });
+}
+
+
+
 
 export function Profile() {
   return (
@@ -21,6 +33,7 @@ export function ProfileMenu(props) {
 // _____________________________________________________SETTINGS_______________________________________________________________
 
 
+
 export function Settings() {
   return (
     <div className="setting-menu">
@@ -28,11 +41,22 @@ export function Settings() {
     </div>
   );
 }
+
+
 export function SettingsMenu(props) {
+
+  const handleToggleTheme = () => {
+    setIsDarkMode(prevState => !prevState);
+    const body = document.querySelector('body');
+    body.classList.toggle('dark-mode');
+  }
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   return (
     <div className="sub-menu">
       {props.children}
-      <li>Dark Theme</li>
+      <li onClick={handleToggleTheme} >
+        {isDarkMode ? 'Dark Mode' : 'Light Mode'}</li>
       <li>Change Password</li>
     </div>
   );
@@ -46,12 +70,16 @@ export function Logout() {
     </div>
   );
 }
+function logout() {
+  showNotification("You have done a logout!","success")
+  window.location ="/";
+}
 export function LogoutMenu(props) {
   return (
     <div className="sub-menu">
       {props.children}
 
-      <li>logout</li>
+      <li onClick={logout}>logout</li>
     </div>
   );
 }

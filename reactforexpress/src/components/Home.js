@@ -10,15 +10,11 @@ import Reconnect from "./reconnect";
 
 function Home() {
     const [data, setData] = useState([]);
-    
 
     useEffect(() => {
     getData()
 }, [data.length]);
 
-function handleClick() {
-    setData( data=> data + 1);
-}
 const getData = async () => {
     fetch('http://localhost:3001')
     .then(response => response.json())
@@ -49,8 +45,9 @@ const getData = async () => {
                         ))}
                         </tbody>
                 </table>
+              
         </div>
-        <Reconnect handleClick={ handleClick } />
+        <Reconnect/>
                 <div className="rest_of_component">
                 <GetByName/>
                  <GetByAge/>
