@@ -10,7 +10,7 @@ let firstCollection;
 async function connectToDatabaseUser() {
   try {
     await userclient.connect();
-    logger.info('Connected to MongoDB Atlas');
+    logger.info('Connected to MongoDB Atlas User DB');
 
     firstCollection = userclient.db('expressJs').collection('first');
     
@@ -25,12 +25,14 @@ const authuri =  process.env.MONGODB_URI_SECURITY;
 
 const authclient = new MongoClient(authuri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+authclient.cl
 let authCollection;
 
 async function connectToDatabaseAuth() {
   try {
+    
     await userclient.connect();
-    logger.info('Connected to MongoDB Atlas');
+    logger.info('Connected to MongoDB Atlas Auth DB');
 
     authCollection = authclient.db('security').collection('auth');
     

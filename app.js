@@ -36,12 +36,21 @@ app.listen(port, () => {
 
 app.get('/reconnect',async (req, res) => {
   try {
-    await userclient.close(); // Close the existing connection
-    await connectToDatabase(); // Connect to the database again
-    res.status(200).send('Successfully reconnected to the database');
+
+    await userclient.close() // Close the existing connection
+    console.log('connection closed')
+    await connectToDatabaseUser() // Connect to the database again
+    console.log('connected to User')
+    
+    await authclient.close() // Close the existing connection
+    console.log('connection closed')
+    await connectToDatabaseAuth() // Connect to the database again
+    console.log('connected to Auth')
+    
+    res.status(200).json({message: 'Successfully reconnected to the database'});
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error reconnecting to the database');
+    res.status(500).json({message: 'Error reconnecting to the database'});
   }
 });
 //____________________________________GET ALL_______________________________________
